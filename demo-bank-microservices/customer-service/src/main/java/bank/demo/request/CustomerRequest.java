@@ -1,5 +1,7 @@
 package bank.demo.request;
 
+import java.util.Objects;
+
 public class CustomerRequest {
 	
 	private long id;
@@ -41,7 +43,17 @@ public class CustomerRequest {
 	public void setCredit_card_no(String credit_card_no) {
 		this.credit_card_no = credit_card_no;
 	}
-	
-	
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		CustomerRequest that = (CustomerRequest) o;
+		return id == that.id && Objects.equals(first_name, that.first_name) && Objects.equals(last_name, that.last_name) && Objects.equals(credit_card_no, that.credit_card_no);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, first_name, last_name, credit_card_no);
+	}
 }

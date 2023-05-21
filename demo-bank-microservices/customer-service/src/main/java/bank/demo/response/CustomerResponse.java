@@ -2,6 +2,8 @@ package bank.demo.response;
 
 import bank.demo.entity.Customer;
 
+import java.util.Objects;
+
 public class CustomerResponse {
 	
 	private long id;
@@ -18,6 +20,9 @@ public class CustomerResponse {
 		this.last_name = customer.getLast_name();
 		//this.address_id = student.getAddress_id();
 		
+	}
+
+	public CustomerResponse() {
 	}
 
 	public long getId() {
@@ -52,9 +57,16 @@ public class CustomerResponse {
 		this.creditCardResponse = creditCardResponse;
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		CustomerResponse that = (CustomerResponse) o;
+		return id == that.id && Objects.equals(first_name, that.first_name) && Objects.equals(last_name, that.last_name) && Objects.equals(creditCardResponse, that.creditCardResponse);
+	}
 
-	
-
-	
-	
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, first_name, last_name, creditCardResponse);
+	}
 }

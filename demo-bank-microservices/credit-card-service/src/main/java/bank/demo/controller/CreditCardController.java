@@ -20,7 +20,7 @@ public class CreditCardController {
 	private CreditCardService creditCardService;
 
 	@PostMapping(value = "/create")
-	public CreditCardResponse createCustomer(@RequestBody CreditCardRequest creditCardRequest){
+	public CreditCardResponse createCreditCard(@RequestBody CreditCardRequest creditCardRequest){
 		return creditCardService.createCreditCard(creditCardRequest);
 	}
 	

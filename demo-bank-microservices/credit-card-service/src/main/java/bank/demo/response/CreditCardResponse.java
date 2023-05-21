@@ -1,6 +1,7 @@
 package bank.demo.response;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 import bank.demo.entity.CreditCard;
 
@@ -16,6 +17,9 @@ public class CreditCardResponse {
 		this.credit_card_no = creditCard.getCredit_card_no();
 		this.balance = creditCard.getBalance();
 		this.card_limit = creditCard.getCard_limit();
+	}
+
+	public CreditCardResponse() {
 	}
 
 	public String getCredit_card_no() {
@@ -41,6 +45,17 @@ public class CreditCardResponse {
 	public void setCard_limit(BigDecimal card_limit) {
 		this.card_limit = card_limit;
 	}
-	
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		CreditCardResponse that = (CreditCardResponse) o;
+		return Objects.equals(credit_card_no, that.credit_card_no) && Objects.equals(balance, that.balance) && Objects.equals(card_limit, that.card_limit);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(credit_card_no, balance, card_limit);
+	}
 }
