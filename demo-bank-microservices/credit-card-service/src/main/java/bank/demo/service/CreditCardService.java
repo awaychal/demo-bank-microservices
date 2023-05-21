@@ -8,6 +8,10 @@ import bank.demo.repository.CreditCardRepository;
 import bank.demo.request.CreditCardRequest;
 import bank.demo.response.CreditCardResponse;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class CreditCardService {
 	
@@ -33,4 +37,14 @@ public class CreditCardService {
 		return new CreditCardResponse(creditCard);
 		
 	}
+
+    public List<CreditCardResponse> getCreditCards() {
+		List<CreditCard> creditCards = creditCardRepository.findAll();
+
+		List<CreditCardResponse> creditCardResponses = creditCards.stream().map(creditCard -> {
+			return new CreditCardResponse(creditCard);
+		}).collect(Collectors.toList());
+
+		return  creditCardResponses;
+    }
 }

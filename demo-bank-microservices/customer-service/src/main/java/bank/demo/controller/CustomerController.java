@@ -12,6 +12,8 @@ import bank.demo.request.CustomerRequest;
 import bank.demo.response.CustomerResponse;
 import bank.demo.service.CustomerService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/api/customer")
 public class CustomerController {
@@ -27,5 +29,10 @@ public class CustomerController {
 	@GetMapping(value = "/getById/{id}")
 	public CustomerResponse getCustomerById(@PathVariable long id){
 		return customerService.getCustomerById(id);
+	}
+
+	@GetMapping
+	public List<CustomerResponse> getCustomers(){
+		return customerService.getCustomers();
 	}
 }

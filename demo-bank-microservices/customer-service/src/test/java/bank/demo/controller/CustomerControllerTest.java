@@ -16,7 +16,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
+import java.util.List;
 
+import static java.util.Collections.singletonList;
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.core.Is.is;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -75,6 +78,23 @@ public class CustomerControllerTest {
                              .content(this.mapper.writeValueAsString(customerRequest)))
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("first_name", is(customerResponse.getFirst_name())));
+    }
+
+    @Test
+    public void getCustomers() throws Exception {
+        CustomerResponse customerResponse = new CustomerResponse();
+        customerResponse.setId(1);
+        customerResponse.setFirst_name("abc");
+
+        List<CustomerResponse> customerResponses = singletonList(customerResponse);
+
+        Mockito.when(customerController.getCustomers()).thenReturn(customerResponses);
+
+        mockMvc.perform(get("/api/customer")
+                        .contentType(APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$[0].first_name", is(customerResponse.getFirst_name())));
     }
 
 }

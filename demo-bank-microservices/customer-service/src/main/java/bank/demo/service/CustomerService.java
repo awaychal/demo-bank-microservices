@@ -10,6 +10,9 @@ import bank.demo.request.CustomerRequest;
 import bank.demo.response.CreditCardResponse;
 import bank.demo.response.CustomerResponse;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class CustomerService {
 	
@@ -47,4 +50,16 @@ public class CustomerService {
 		return customerResponse;
 		
 	}
+
+    public List<CustomerResponse> getCustomers() {
+		List<Customer> customers = customerRepository.findAll();
+
+		List<CustomerResponse> customerResponses = customers.stream().map(customer -> {
+			CustomerResponse customerResponse = new CustomerResponse(customer);
+			customerResponse.setCreditCardResponse(creditCardFeignClient.getCreditCard(customer.getCredit_card_no()));
+			return customerResponse;
+		}).collect(Collectors.toList());
+
+		return customerResponses;
+    }
 }

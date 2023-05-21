@@ -12,6 +12,8 @@ import bank.demo.request.CreditCardRequest;
 import bank.demo.response.CreditCardResponse;
 import bank.demo.service.CreditCardService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/api/creditCard")
 public class CreditCardController {
@@ -27,5 +29,10 @@ public class CreditCardController {
 	@GetMapping(value = "/getByCreditCardNo/{cardNo}")
 	public CreditCardResponse getCreditCard(@PathVariable String cardNo) {
 		return creditCardService.getCreditCardByCardNo(cardNo);
+	}
+
+	@GetMapping
+	public List<CreditCardResponse> getCreditCards(){
+		return creditCardService.getCreditCards();
 	}
 }
