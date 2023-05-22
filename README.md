@@ -2,7 +2,7 @@
 
 ## Overview 
 
-This is back end application which consist of two microservices, customer and credit card. With these microservice, we can add new resources and get them by id. Containerised with kubernetes.
+This is back end application which consist of two microservices, customer and credit card. With these microservice, we can add new resources and get them all or by id. Containerised with kubernetes.
 
 ### Technologies
 
@@ -29,7 +29,7 @@ kubectl get svc \
 kubectl get deployments \
 kubectl get pods \
 kubectl describe pod <pod-name> \
-kebectl logs <pod-name> \
+kebectl logs <pod-name> 
 
 kubectl create -f customer-service-deployment.yaml \
 kubectl get svc \
@@ -61,7 +61,7 @@ kebectl logs <pod-name>
       ````json
        {
          "card_no": "79927398713",
-         "card_holder_name": "Amruta",
+         "balance": 0,
          "credit_limit": 1000
        }
     ````
@@ -74,8 +74,28 @@ kebectl logs <pod-name>
    "credit_limit": 1000
    }
     ````
+   
+3) GET http://localhost:8082/api/creditCard - Used to get all credit cards.
 
-3) GET http://localhost:8080/api/customer/getById/6 - Used to get customer info with credit card details from credit card microservice.
+   Request : NA \
+   Response :
+
+    ````json
+   [
+     {
+       "credit_card_no": "1234567891",
+       "balance": 0,
+       "card_limit": 5000
+     },
+     {
+       "credit_card_no": "888888888",
+       "balance": 0,
+       "card_limit": 1000
+     }
+   ]
+    ````
+
+4) GET http://localhost:8080/api/customer/getById/6 - Used to get customer info with credit card details from credit card microservice.
 
    Request : NA \
    Response :
@@ -89,11 +109,11 @@ kebectl logs <pod-name>
       "credit_card_no": "12345678",
       "balance": 0,
       "card_limit": 2000
-    }
+       }
    }
     ````
 
-4) POST http://localhost:8082/api/customer/create - Used to create/add new customer
+5) POST http://localhost:8082/api/customer/create - Used to create/add new customer
 
    Request :
 
@@ -121,10 +141,39 @@ kebectl logs <pod-name>
    }
     ````
 
-### Ongoing Improvements
+6) GET http://localhost:8080/api/customer - Used to get all customer info with credit card details from credit card microservice.
 
-1) Add test cases 
-2) Proper exception handling 
-3) Add Ingress, to have one api gateway 
-4) Add more crud operations
+   Request : NA \
+   Response :
+
+    ````json
+    [
+      {
+        "id": 1,
+        "first_name": "Amruta",
+        "last_name": "Waychal",
+        "creditCardResponse": {
+          "credit_card_no": "888888888",
+          "balance": 0,
+          "card_limit": 1000
+        }
+      },
+      {
+        "id": 4,
+        "first_name": "test",
+        "last_name": "test1",
+        "creditCardResponse": {
+          "credit_card_no": "1234567891",
+          "balance": 0,
+          "card_limit": 5000
+        }
+      }
+   ]
+    ````
+
+### Ongoing Improvements
+ 
+1) Proper exception handling 
+2) Add Ingress, to have one api gateway 
+3) Add request validations
 
