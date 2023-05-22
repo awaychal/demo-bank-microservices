@@ -32,7 +32,7 @@ public class CustomerController {
 	}
 
 	@GetMapping
-	public List<CustomerResponse> getCustomers(){
+	public List<CustomerResponse> getAllCustomers(){
 		return customerService.getCustomers();
 	}
 }

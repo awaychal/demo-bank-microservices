@@ -11,7 +11,7 @@ public class Customer {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private long id;
 	
 	@Column
 	private String first_name;
@@ -22,8 +22,12 @@ public class Customer {
 	@Column
 	private String credit_card_no;
 
-	public Long getId() {
+	public long getId() {
 		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	public String getFirst_name() {
@@ -49,7 +53,6 @@ public class Customer {
 	public void setCredit_card_no(String credit_card_no) {
 		this.credit_card_no = credit_card_no;
 	}
-	
-	
+
 
 }

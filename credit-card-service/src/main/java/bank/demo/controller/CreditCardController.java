@@ -32,7 +32,7 @@ public class CreditCardController {
 	}
 
 	@GetMapping
-	public List<CreditCardResponse> getCreditCards(){
+	public List<CreditCardResponse> getAllCreditCards(){
 		return creditCardService.getCreditCards();
 	}
 }
