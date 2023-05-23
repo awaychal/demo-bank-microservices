@@ -10,6 +10,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -29,6 +31,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@EnableAutoConfiguration(exclude = { DataSourceAutoConfiguration.class})
 @AutoConfigureMockMvc
 public class CreditCardIControllerIntegrationTest {
 
@@ -70,8 +73,6 @@ public class CreditCardIControllerIntegrationTest {
 
         String expected = "{\"credit_card_no\":\"5555555555554444\",\"balance\":100,\"card_limit\":1000}";
 
-        System.out.println(expected);
-
         JSONAssert.assertEquals(expected, result.getResponse()
                 .getContentAsString(), false);
     }
@@ -90,8 +91,6 @@ public class CreditCardIControllerIntegrationTest {
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 
         String expected = "{\"credit_card_no\":\"5555555555554444\",\"balance\":100,\"card_limit\":1000}";
-
-        System.out.println(expected);
 
         JSONAssert.assertEquals(expected, result.getResponse()
                 .getContentAsString(), false);
