@@ -39,7 +39,7 @@ public class CustomerService {
 		return customerResponse;
 	}
 	
-	public CustomerResponse getCustomerById(Long id) {
+	public CustomerResponse getCustomerById(long id) {
 		Customer customer = customerRepository.findById(id).get();
 		
 		CreditCardResponse creditCardResponse = creditCardFeignClient.getCreditCard(customer.getCredit_card_no());

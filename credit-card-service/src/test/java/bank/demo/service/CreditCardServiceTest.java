@@ -7,7 +7,6 @@ import bank.demo.response.CreditCardResponse;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -51,7 +50,6 @@ public class CreditCardServiceTest {
         expectedResponse.setBalance(BigDecimal.valueOf(100));
     }
 
-    @DisplayName("JUnit test for getCreditCardByCardNo method")
     @Test
     public void getCreditCardByCardNo_Should_Return_CreditCardResponse() {
 
@@ -63,7 +61,6 @@ public class CreditCardServiceTest {
         Assert.assertEquals(expectedResponse, response);
     }
 
-    @DisplayName("JUnit test for createCreditCard method")
     @Test
     public void createCreditCard_Should_Return_CreditCardResponse() {
 
@@ -75,7 +72,6 @@ public class CreditCardServiceTest {
         Assert.assertEquals(expectedResponse, creditCardResponse);
     }
 
-    @DisplayName("JUnit test for getCreditCards method")
     @Test
     public void getCreditCards_Should_Return_CreditCardResponsesList() throws Exception {
 

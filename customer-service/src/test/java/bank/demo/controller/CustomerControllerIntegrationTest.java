@@ -70,7 +70,6 @@ public class CustomerControllerIntegrationTest {
         expectedCreditCardResponse.setBalance(BigDecimal.valueOf(100));
     }
 
-    @DisplayName("Integration test for getCustomerById api")
     @Test
     public void getCustomerById_Should_Return_CustomerResponse() throws Exception {
 
@@ -89,7 +88,6 @@ public class CustomerControllerIntegrationTest {
         JSONAssert.assertEquals(expected, result.getResponse().getContentAsString(), false);
     }
 
-    @DisplayName("Integration test for createCustomer api")
     @Test
     public void createCustomer_Should_Return_CustomerResponse() throws Exception {
 
@@ -109,8 +107,6 @@ public class CustomerControllerIntegrationTest {
         JSONAssert.assertEquals(expected, result.getResponse().getContentAsString(), false);
     }
 
-
-    @DisplayName("Integration test for getAllCustomers api")
     @Test
     public void getAllCustomers_Should_Return_CustomerResponsesList() throws Exception {
 

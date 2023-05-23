@@ -9,7 +9,6 @@ import bank.demo.response.CustomerResponse;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -66,7 +65,6 @@ public class CustomerServiceTest {
         expectedCustomerResponse.setCreditCardResponse(expectedCreditCardResponse);
     }
 
-    @DisplayName("JUnit test for getCustomerById method")
     @Test
     public void getCustomerById_Should_Return_CustomerResponse() {
 
@@ -80,7 +78,6 @@ public class CustomerServiceTest {
         Assert.assertEquals(expectedCustomerResponse, response);
     }
 
-    @DisplayName("JUnit test for createCustomer method")
     @Test
     public void createCustomer_Should_Return_CustomerResponse() {
 
@@ -94,7 +91,6 @@ public class CustomerServiceTest {
         Assert.assertEquals(expectedCustomerResponse, response);
     }
 
-    @DisplayName("JUnit test for getCustomers method")
     @Test
     public void getCustomers_Should_Return_CustomerResponsesList() {
 

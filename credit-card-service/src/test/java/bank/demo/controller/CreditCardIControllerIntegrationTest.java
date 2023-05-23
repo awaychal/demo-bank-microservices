@@ -3,11 +3,9 @@ package bank.demo.controller;
 import bank.demo.entity.CreditCard;
 import bank.demo.repository.CreditCardRepository;
 import bank.demo.request.CreditCardRequest;
-import bank.demo.response.CreditCardResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.skyscreamer.jsonassert.JSONAssert;
@@ -59,7 +57,6 @@ public class CreditCardIControllerIntegrationTest {
         creditCardRequest.setBalance(BigDecimal.valueOf(100));
     }
 
-    @DisplayName("Integration test for getCreditCardByCardNo api")
     @Test
     public void getCreditCardByCardNo_Should_Return_CreditCardResponse() throws Exception {
 
@@ -79,7 +76,6 @@ public class CreditCardIControllerIntegrationTest {
                 .getContentAsString(), false);
     }
 
-    @DisplayName("Integration test for createCreditCard api")
     @Test
     public void createCreditCard_Should_Return_CreditCardResponse() throws Exception {
 
@@ -101,7 +97,6 @@ public class CreditCardIControllerIntegrationTest {
                 .getContentAsString(), false);
     }
 
-    @DisplayName("Integration test for getAllCreditCards api")
     @Test
     public void getAllCreditCards_Should_Return_CreditCardResponsesList() throws Exception {
 
