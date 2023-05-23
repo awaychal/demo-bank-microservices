@@ -1,9 +1,10 @@
 package bank.demo.controller;
 
-
+import bank.demo.entity.Customer;
+import bank.demo.feignclient.CreditCardFeignClient;
+import bank.demo.repository.CustomerRepository;
 import bank.demo.request.CustomerRequest;
 import bank.demo.response.CreditCardResponse;
-import bank.demo.response.CustomerResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,7 +14,7 @@ import org.mockito.Mockito;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -23,14 +24,15 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 import static java.util.Collections.singletonList;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 
 @RunWith(SpringRunner.class)
+@SpringBootTest
 @AutoConfigureMockMvc
-@WebMvcTest(CustomerController.class)
-public class CustomerControllerTest {
+public class CustomerControllerIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -39,15 +41,22 @@ public class CustomerControllerTest {
     private ObjectMapper mapper;
 
     @MockBean
-    private CustomerController customerController;
+    private CustomerRepository customerRepository;
 
+    @MockBean
+    private CreditCardFeignClient creditCardFeignClient;
+
+    private Customer customer;
     private CustomerRequest customerRequest;
-    private CustomerResponse customerResponse;
-
-    private CreditCardResponse creditCardResponse;
+    private CreditCardResponse expectedCreditCardResponse;
 
     @Before
     public void setup() {
+        customer = new Customer();
+        customer.setId(1);
+        customer.setFirst_name("John");
+        customer.setLast_name("Will");
+        customer.setCredit_card_no("5555555555554444");
 
         customerRequest = new CustomerRequest();
         customerRequest.setId(1);
@@ -55,26 +64,22 @@ public class CustomerControllerTest {
         customerRequest.setLast_name("Will");
         customerRequest.setCredit_card_no("5555555555554444");
 
-        creditCardResponse = new CreditCardResponse();
-        creditCardResponse.setCredit_card_no("5555555555554444");
-        creditCardResponse.setCard_limit(BigDecimal.valueOf(1000));
-        creditCardResponse.setBalance(BigDecimal.valueOf(100));
-
-        customerResponse = new CustomerResponse();
-        customerResponse.setId(1);
-        customerResponse.setFirst_name("John");
-        customerResponse.setLast_name("Will");
-        customerResponse.setCreditCardResponse(creditCardResponse);
-
+        expectedCreditCardResponse = new CreditCardResponse();
+        expectedCreditCardResponse.setCredit_card_no("5555555555554444");
+        expectedCreditCardResponse.setCard_limit(BigDecimal.valueOf(1000));
+        expectedCreditCardResponse.setBalance(BigDecimal.valueOf(100));
     }
 
+    @DisplayName("Integration test for getCustomerById api")
     @Test
     public void getCustomerById_Should_Return_CustomerResponse() throws Exception {
 
-        Mockito.when(customerController.getCustomerById(1)).thenReturn(customerResponse);
+        Mockito.when(creditCardFeignClient.getCreditCard("5555555555554444")).thenReturn(expectedCreditCardResponse);
+
+        Mockito.when(customerRepository.findById(1L)).thenReturn(Optional.of(customer));
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
-                .get("/api/customer/getById/" + customerResponse.getId())
+                .get("/api/customer/getById/" + customer.getId())
                 .contentType(APPLICATION_JSON);
 
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
@@ -84,10 +89,13 @@ public class CustomerControllerTest {
         JSONAssert.assertEquals(expected, result.getResponse().getContentAsString(), false);
     }
 
+    @DisplayName("Integration test for createCustomer api")
     @Test
     public void createCustomer_Should_Return_CustomerResponse() throws Exception {
 
-        Mockito.when(customerController.createCustomer(customerRequest)).thenReturn(customerResponse);
+        Mockito.when(creditCardFeignClient.getCreditCard("5555555555554444")).thenReturn(expectedCreditCardResponse);
+
+        Mockito.when(customerRepository.save(Mockito.any())).thenReturn(customer);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .post("/api/customer/create")
@@ -102,12 +110,15 @@ public class CustomerControllerTest {
     }
 
 
+    @DisplayName("Integration test for getAllCustomers api")
     @Test
     public void getAllCustomers_Should_Return_CustomerResponsesList() throws Exception {
 
-        List<CustomerResponse> customerResponses = singletonList(customerResponse);
+        Mockito.when(creditCardFeignClient.getCreditCard("5555555555554444")).thenReturn(expectedCreditCardResponse);
 
-        Mockito.when(customerController.getAllCustomers()).thenReturn(customerResponses);
+        List<Customer> customerList = singletonList(customer);
+
+        Mockito.when(customerRepository.findAll()).thenReturn(customerList);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .get("/api/customer")
@@ -119,5 +130,4 @@ public class CustomerControllerTest {
 
         JSONAssert.assertEquals(expected, result.getResponse().getContentAsString(), false);
     }
-
 }
